@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodeVibing Portfolio</title>
+    <style>
+        :root { 
+            --bg: #f3f4f6; --card: #ffffff; --text: #000000; --sub: #666666; 
+            --border: #d1d5db; --term-bg: #111111; --term-text: #eeeeee; 
+            --accent: #4285F4;
+        }
+        [data-theme="dark"] { 
+            --bg: #0f172a; --card: #1e293b; --text: #f8fafc; --sub: #94a3b8; 
+            --border: #334155; --term-bg: #000000; --term-text: #94a3b8; 
+        }
+        
+        body { background: var(--bg); margin: 0; font-family: -apple-system, sans-serif; color: var(--text); transition: all 0.3s ease; overflow-x: hidden; }
+        .container { max-width: 1000px; margin: 0 auto; padding: 20px; box-sizing: border-box; }
+        
+        header { 
+            display: flex; justify-content: space-between; align-items: flex-start; 
+            border-bottom: 2px solid var(--border); padding-bottom: 25px; margin-bottom: 40px; 
+            flex-wrap: wrap; gap: 15px;
+        }
+        .brand-h1 { 
+            margin:0; font-size:32px; display: flex; align-items: center; 
+            font-family: 'Courier New', monospace; letter-spacing: 2px; font-weight: 900;
+        }
+        .mirror-c { display: inline-block; transform: scaleX(-1); margin-right: 4px; }
+        
+        .utility-row { display: flex; align-items: center; gap: 20px; margin-top: 15px; }
+        .icon-unit {
+            width: 24px; height: 24px; display: flex; align-items: center; justify-content: center;
+            cursor: pointer; opacity: 0.8; transition: opacity 0.2s;
+        }
+        
+        .info-circle { 
+            border: 1.8px solid var(--text); border-radius: 50%; 
+            font-size: 13px; font-family: serif; font-weight: 900;
+            width: 20px; height: 20px; display: flex; align-items: center; justify-content: center;
+        }
+        
+        .svg-icon { width: 22px; height: 22px; fill: none; stroke: var(--text); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+        
+        @keyframes rotateY { from { transform: rotateY(0deg); } to { transform: rotateY(360deg); } }
+        .playing { animation: rotateY 3s linear infinite; }
+
+        .qr-frame { width:80px; height:80px; border:1px solid var(--border); border-radius:8px; background: #fff; flex-shrink: 0; }
+
+        #drawer-overlay {
+            display: none; position: fixed; top:0; left:0; width:100%; height:100%;
+            background: rgba(0,0,0,0.4); z-index: 999;
+        }
+        #side-drawer {
+            position: fixed; right: -400px; top: 0; width: 350px; max-width: 85%; height: 100%;
+            background: var(--card); border-left: 1px solid var(--border);
+            transition: right 0.3s ease; z-index: 1000; padding: 40px; box-sizing: border-box;
+            overflow-y: auto;
+        }
+        #side-drawer.open { right: 0; }
+        .drawer-close { cursor: pointer; font-weight: bold; float: right; margin-bottom: 20px; }
+
+        .card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; display: grid; grid-template-columns: 380px 1fr; margin-bottom: 30px; overflow: hidden; }
+        
+        @media (max-width: 850px) {
+            .card { grid-template-columns: 1fr; }
+            .visual { border-right: none; border-bottom: 1px solid var(--border); }
+            .brand-h1 { font-size: 24px; letter-spacing: 1px; }
+        }
+
+        .visual { background: rgba(0,0,0,0.02); padding: 24px; border-right: 1px solid var(--border); }
+        .content { padding: 32px; }
+        .tag { padding: 4px 8px; border-radius: 4px; color: #fff; font-size: 10px; font-weight: 900; text-transform: uppercase; margin-right: 4px; display: inline-block; margin-bottom: 4px; }
+        .label { font-size: 11px; font-weight: 900; text-transform: uppercase; display: block; margin-top: 18px; margin-bottom: 4px; color: var(--sub); }
+        .terminal { background: var(--term-bg); color: var(--term-text); padding: 15px; border-radius: 8px; font-family: monospace; font-size: 11px; margin-top: 10px; }
+        .blur-line { filter: blur(5px); opacity: 0.5; user-select: none; }
+        h2 { font-size: 32px; font-weight: 900; margin: 0; }
+        .status-box { font-family: monospace; font-weight: 900; font-size: 14px; }
+        p { margin: 0; font-size: 15px; line-height: 1.6; color: var(--text); }
+        a { color: var(--accent); text-decoration: none; }
+    </style>
+</head>
+<body data-theme="light">
+
+<div id="drawer-overlay" onclick="toggleDrawer()"></div>
+<div id="side-drawer">
+    <div class="drawer-close" onclick="toggleDrawer()">✕ Close</div>
+    <div style="clear:both; margin-top:40px;">
+        <p><strong>Intro</strong></p>
+        <p style="margin-bottom: 15px;">Hey there 👋<br><span class="mirror-c">C</span>odeVibing is about the vibe of experimenting and turning ideas into reality. This is a space where curiosity meets creation. From ai-experiments to thoughts, learnings and explorations; everything here is part of my journey. Whether you’re here to discover something new or get inspired for your next build, you’re in the right place.</p>
+        
+        <p><strong>About</strong></p>
+        <p style="margin-bottom: 15px;"><span class="mirror-c">C</span>odeVibing is a personal space of mine dedicated to sharing ideas in tech and usage of artificial intelligence. It’s less about perfection and more about progress, creativity and learning by doing. You may find somethings here utterly useless but others may be very useful</p>
+        
+        <p><strong>Contact</strong></p>
+        <p>Got an idea, feedback or just want to connect? Say Hi to <a href="mailto:creator.007@zohomail.in">creator.007@zohomail.in</a></p>
+    </div>
+</div>
+
+<div class="container">
+    <header>
+        <div>
+            <div class="brand-h1">[<span class="mirror-c">C</span>ODE·VIBING]</div>
+            <div class="utility-row">
+                <div class="icon-unit" onclick="toggleDrawer()"><span class="info-circle">i</span></div>
+                <div id="vibe-trigger" class="icon-unit" onclick="toggleMusic()">
+                    <svg class="svg-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/></svg>
+                </div>
+                <div class="icon-unit" onclick="toggleTheme()">
+                    <svg class="svg-icon" viewBox="0 0 24 24"><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+                </div>
+            </div>
+        </div>
+        <div style="display: flex; flex-direction: column; align-items: center; gap: 8px;">
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://deepdass007.github.io/CodeVibing/" class="qr-frame">
+            <div style="font-family: Georgia, serif; font-style: italic; font-size: 11px; color: var(--sub); text-align: center; white-space: nowrap;">
+                mini-projects by Deep Das
+            </div>
+        </div>
+    </header>
+
+    <audio id="radio" loop crossorigin="anonymous">
+        <source src="louisearmstrong.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="card">
+        <div class="visual">
+            <img src="https://drive.google.com/thumbnail?id=14_Nxv3kECAluFFSLXM-LujdgXeLpqn7W&sz=w800" style="width:100%; border-radius:8px; border:1px solid var(--border);">
+            <span class="label">Production Files</span>
+            <div class="terminal">
+                <div>📄 Vercel: Build and deploy</div>
+                <div>📄 Vitejs - StackBlitz</div>
+            </div>
+        </div>
+        <div class="content">
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap: wrap; gap: 10px;">
+                <h1>Probable</h1>
+                <div class="status-box">Status: <span style="color:#16a34a;">Live...</span></div>
+            </div>
+            <div style="margin: 10px 0 20px 0;">
+                <span class="tag" style="background:#000;">GITHUB</span>
+                <span class="tag" style="background:#4285F4;">VERCEL</span>
+                <span class="tag" style="background:#646cff;">VITE</span>
+                <span class="tag" style="background:#f59e0b;">API</span>
+            </div>
+            <span class="label">Synopsis</span><p>World events move faster than the data used to explain them, creating a dangerous gap in real-time risk assessment.</p>
+            <span class="label">Description</span><p>This engine bridges that gap by quantifying volatility through direct signal analysis of live global feeds. It processes unstructured data into a numerical probability score reflecting the likelihood of specific outcomes. The system is designed for high-concurrency environments to normalize disparate data sources into a unified lens on geopolitical shifts. This allows for a deeper understanding of the underlying mechanics of global market movements. By using advanced algorithms, it provides users with a comprehensive overview of potential risks before they manifest.</p>
+            <span class="label">Mode</span><p>Online: <a href="https://probability-trackr.vercel.app/">probability-trackr.vercel.app</a></p>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="visual">
+            <img src="https://drive.google.com/thumbnail?id=1mhFAlnrRJ6LL6wmx64nSG3heU0koXwMV&sz=w800" style="width:100%; border-radius:8px; border:1px solid var(--border);">
+            <span class="label">Production Files</span>
+            <div class="terminal"><div>📄 Deploys | 3alt | Cloudflare</div></div>
+        </div>
+        <div class="content">
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap: wrap; gap: 10px;">
+                <h1>Alt3</h1>
+                <div class="status-box">Status: <span style="color:#16a34a;">Live...</span></div>
+            </div>
+            <div style="margin: 10px 0 20px 0;">
+                <span class="tag" style="background:#00d1b2;">CLOUDFLARE</span>
+                <span class="tag" style="background:#f59e0b;">GROQ</span>
+                <span class="tag" style="background:#374151;">LLM</span>
+                <span class="tag" style="background:#8b5cf6;">REACT</span>
+            </div>
+            <span class="label">Synopsis</span><p>Analysis paralysis often stems from a lack of objective, diverse perspectives when facing a binary dilemma.</p>
+            <span class="label">Description</span><p>Alt3 acts as a multi-threaded decision partner generating three distinct paths for any given problem. It leverages high-speed LLM processing to simulate different expert personas, providing a balanced view of potential solutions. The platform is built to handle complex decision-making scenarios by offering actionable alternatives that challenge conventional thinking. Users can interact with the AI to refine these paths based on specific constraints and goals. This iterative process ensures that the final decision is backed by a robust framework of logical reasoning.</p>
+            <span class="label">Mode</span><p>Online: <a href="https://alt3core.pages.dev/">alt3core.pages.dev</a></p>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="visual">
+            <img src="https://drive.google.com/thumbnail?id=1bJFeAaJfsEmuD2NiXP7hiJn2OETwS4S5&sz=w800" style="width:100%; border-radius:8px; border:1px solid var(--border);">
+            <span class="label">Production Files</span>
+            <div class="terminal"><div>📄 Society_App_Database</div></div>
+        </div>
+        <div class="content">
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap: wrap; gap: 10px;">
+                <h1>Society Concierge</h1>
+                <div class="status-box">Status: <span style="color:#ef4444;">Paused.</span></div>
+            </div>
+            <div style="margin: 10px 0 20px 0;">
+                <span class="tag" style="background:#4285F4;">APPSHEET</span>
+                <span class="tag" style="background:#16a34a;">SHEETS</span>
+                <span class="tag" style="background:#000;">DB</span>
+                <span class="tag" style="background:#6b7280;">LOCAL</span>
+            </div>
+            <span class="label">Synopsis</span><p>Fragmented communication in community living lead to administrative bloat and frustration.</p>
+            <span class="label">Description</span><p>This project centralizes community governance by linking relational databases with accessible mobile interfaces. It automates maintenance tracking and creates a compliant forum for residents to discuss neighborhood issues. The system is designed to digitize operations for residential welfare associations without the need for expensive software. By streamlining data entry and reporting, it reduces the manual workload on community administrators. The platform also ensures that all resident data is stored securely while remaining easily accessible for authorized personnel.</p>
+            <span class="label">Mode</span><p>Online: Site not available</p>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="visual">
+            <img src="https://drive.google.com/thumbnail?id=1TnkGwuF0OsC7XkXSKxOwFtjxWJOPVgwt&sz=w800" style="width:100%; border-radius:8px; border:1px solid var(--border);">
+            <span class="label">Production Files</span>
+            <div class="terminal">
+                <div>📄 Teams_Manifest_Production.json</div>
+                <div class="blur-line">🔒 SECURE_MIGRATION_PATH_AGENT_V4</div>
+                <div class="blur-line">🔒 COPILOT_TENANT_ID_MAPPING</div>
+                <div class="blur-line">🔒 STUDIO_AGENT_SECRET_KEY</div>
+            </div>
+        </div>
+        <div class="content">
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap: wrap; gap: 10px;">
+                <h1>ProBot→ Migration Assistant</h1>
+                <div class="status-box">Status: <span style="color:#16a34a;">Live...</span></div>
+            </div>
+            <div style="margin: 10px 0 20px 0;">
+                <span class="tag" style="background:#3b82f6;">COPILOT</span>
+                <span class="tag" style="background:#8b5cf6;">STUDIO</span>
+                <span class="tag" style="background:#000;">BOT AGENT</span>
+                <span class="tag" style="background:#4285F4;">MS TEAMS</span>
+            </div>
+            <span class="label">Synopsis</span><p>ProBot is a focused migration support assistant. It helps users clearly understand official information and what actions to take using only approved internal sources.</p>
+            <span class="label">Description</span><p>ProBot does not guess, does not use the internet and does not provide files. It explains information in plain language with clear, complete, step‑by‑step guidance and always cites the exact internal source used. ProBot is designed to reduce confusion, avoid rework and ensure everyone follows the same official instructions during the migration process. Use ProBot to quickly understand what is happening in the activity, what exact steps you need to take next, which guidance applies to your specific scenario and what the official Q&A explicitly says verbatim.</p>
+            <span class="label">Mode</span><p>Online: Copilot/ Studio Agent (Authorized Tenant Only)</p>
+        </div>
+    </div>
+
+    <footer style="margin-top:50px; border-top:1px solid var(--border); padding:20px 0; text-align: center; font-size: 11px; color: var(--sub);">
+        © 2026 [<span class="mirror-c">C</span>ODE·VIBING]. All rights reserved. [ creator.007@zohomail.in ]
+    </footer>
+</div>
+
+<script>
+    const radio = document.getElementById('radio');
+    const trigger = document.getElementById('vibe-trigger');
+    const drawer = document.getElementById('side-drawer');
+    const overlay = document.getElementById('drawer-overlay');
+
+    function toggleDrawer() {
+        drawer.classList.toggle('open');
+        overlay.style.display = drawer.classList.contains('open') ? 'block' : 'none';
+    }
+
+    function toggleMusic() {
+        if (radio.paused) {
+            radio.play().then(() => trigger.classList.add('playing')).catch(e => console.log("User interaction required."));
+        } else {
+            radio.pause();
+            trigger.classList.remove('playing');
+        }
+    }
+
+    function toggleTheme() {
+        const body = document.body;
+        const current = body.getAttribute('data-theme');
+        body.setAttribute('data-theme', current === 'light' ? 'dark' : 'light');
+    }
+</script>
+</body>
+</html>
