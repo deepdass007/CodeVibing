@@ -1,0 +1,22 @@
+{
+  "name": "CodeVibing Portfolio",
+  "short_name": "CodeVibing",
+  "description": "Mini-projects by Deep Das",
+  "start_url": "/CodeVibing/",
+  "display": "standalone",
+  "background_color": "#f3f4f6",
+  "theme_color": "#f3f4f6",
+  "icons": [
+    {
+      "src": "favicon.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
